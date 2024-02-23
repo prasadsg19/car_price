@@ -4,172 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Price Prediction</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-image: url('static/car_2.webp'); /* Add the path to your background image */
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        form {
-            background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
-            padding: 20px;
-            border-radius: 10px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
-            gap: 10px; /* Add spacing between inputs */
-        }
-        form label {
-            width: 100px; /* Adjust label width */
-            display: inline-block;
-        }
-        form input,
-        form select {
-            width: 100%; /* Take up full width of column */
-        }
-    </style>
 </head>
 <body>
     <h1>Car Price Prediction</h1>
-    <form id="predictionForm">
-        <!-- Dropdowns for categorical columns -->
+    <form action="/predict" method="post">
         <label for="fueltype">Fuel Type:</label>
-        <select id="fueltype" name="fueltype"></select><br>
-        
+        <select name="fueltype" id="fueltype">
+            <option value="gas">Gas</option>
+            <option value="diesel">Diesel</option>
+        </select><br>
+
         <label for="aspiration">Aspiration:</label>
-        <select id="aspiration" name="aspiration"></select><br>
-        
+        <select name="aspiration" id="aspiration">
+            <option value="std">Standard</option>
+            <option value="turbo">Turbo</option>
+        </select><br>
+
         <label for="doornumber">Door Number:</label>
-        <select id="doornumber" name="doornumber"></select><br>
-        
+        <select name="doornumber" id="doornumber">
+            <option value="two">Two</option>
+            <option value="four">Four</option>
+        </select><br>
+
         <label for="enginelocation">Engine Location:</label>
-        <select id="enginelocation" name="enginelocation"></select><br>
-        
-        <label for="carbody">Car Body:</label>
-        <select id="carbody" name="carbody"></select><br>
-        
-        <label for="drivewheel">Drive Wheel:</label>
-        <select id="drivewheel" name="drivewheel"></select><br>
-        
-        <label for="enginetype">Engine Type:</label>
-        <select id="enginetype" name="enginetype"></select><br>
-        
-        <label for="fuelsystem">Fuel System:</label>
-        <select id="fuelsystem" name="fuelsystem"></select><br>
+        <select name="enginelocation" id="enginelocation">
+            <option value="front">Front</option>
+            <option value="rear">Rear</option>
+        </select><br>
 
         <label for="cylindernumber">Cylinder Number:</label>
-        <select id="cylindernumber" name="cylindernumber"></select><br>
+        <select name="cylindernumber" id="cylindernumber">
+            <option value="two">Two</option>
+            <option value="three">Three</option>
+            <option value="four">Four</option>
+            <option value="five">Five</option>
+            <option value="six">Six</option>
+            <option value="eight">Eight</option>
+            <option value="twelve">Twelve</option>
+        </select><br>
 
-        <!-- Text inputs for numerical columns -->
+        <label for="carbody">Car Body:</label>
+        <select name="carbody" id="carbody">
+            <option value="sedan">Sedan</option>
+            <option value="hatchback">Hatchback</option>
+            <option value="wagon">Wagon</option>
+            <option value="hardtop">Hardtop</option>
+            <option value="convertible">Convertible</option>
+        </select><br>
+
+        <label for="drivewheel">Drive Wheel:</label>
+        <select name="drivewheel" id="drivewheel">
+            <option value="fwd">Front Wheel Drive</option>
+            <option value="rwd">Rear Wheel Drive</option>
+            <option value="4wd">Four Wheel Drive</option>
+        </select><br>
+
+        <label for="enginetype">Engine Type:</label>
+        <select name="enginetype" id="enginetype">
+            <option value="dohc">Double Overhead Camshaft</option>
+            <option value="ohcv">Overhead Valve</option>
+            <option value="ohc">Overhead Camshaft</option>
+            <option value="l">L</option>
+            <option value="rotor">Rotor</option>
+        </select><br>
+
+        <label for="fuelsystem">Fuel System:</label>
+        <select name="fuelsystem" id="fuelsystem">
+            <option value="mpfi">Multi-Point Fuel Injection</option>
+            <option value="2bbl">Two-Barrel Carburetor</option>
+            <option value="1bbl">Single-Barrel Carburetor</option>
+            <option value="idi">Indirect Injection</option>
+            <option value="spfi">Single-Point Fuel Injection</option>
+            <option value="spdi">Sequential Port Fuel Injection</option>
+            <option value="mfi">Multi-Point Fuel Injection</option>
+        </select><br>
+
+        <!-- Numeric input fields go here -->
         <label for="wheelbase">Wheelbase:</label>
-        <input type="text" id="wheelbase" name="wheelbase"   placeholder="wheelbase in inches">><br>
-        
-        <label for="carlength">Car Length:</label>
-        <input type="text" id="carlength" name="carlength"  placeholder="carlength in inches"><br>
-        
-        <label for="carwidth">Car Width:</label>
-        <input type="text" id="carwidth" name="carwidth" placeholder="Enter carwidth in inches"><br>
-        
-        <label for="carheight">Car Height:</label>
-        <input type="text" id="carheight" name="carheight" placeholder="carheight in inches"><br>
-        
-        <label for="curbweight">Curb Weight:</label>
-        <input type="text" id="curbweight in KG" name="curbweight" placeholder="curbweight in Kg"><br>
-        
-        <label for="enginesize">Engine Size:</label>
-        <input type="text" id="enginesize" name="enginesize" placeholder="enginesize in cc" ><br>
-        
-        <label for="boreratio">Bore Ratio:</label>
-        <input type="text" id="boreratio" name="boreratio" placeholder="boreratio between 2.6 to 4 inches"><br>
-        
-        <label for="stroke">Stroke:</label>
-        <input type="text" id="stroke" name="stroke" placeholder="stroke range 2 to 4.5 ml/m2"><br>
-        
-        <label for="compressionratio">Compression Ratio:</label>
-        <input type="text" id="compressionratio" name="compressionratio" placeholder="ratio between 1 to 22"><br>
-        
-        <label for="horsepower">Horsepower:</label>
-        <input type="text" id="horsepower" name="horsepower" placeholder="horsepower between 50 to 300"><br>
-        
-        <label for="peakrpm">Peak RPM:</label>
-        <input type="text" id="peakrpm" name="peakrpm" placeholder="rpm between 3000 to 6500 "><br>
-        
-        <label for="citympg">City MPG:</label>
-        <input type="text" id="citympg" name="citympg" placeholder="mpg between 12 to 50 " ><br>
-        
-        <label for="highwaympg">Highway MPG:</label>
-        <input type="text" id="highwaympg" name="highwaympg" placeholder="mpg between 12 to 55 "  ><br>
+        <input type="text" name="wheelbase"><br>
 
-        <!-- Submit button -->
+        <label for="carlength">Car Length:</label>
+        <input type="text" name="carlength"><br>
+
+        <label for="carwidth">Car Width:</label>
+        <input type="text" name="carwidth"><br>
+
+        <label for="carheight">Car Height:</label>
+        <input type="text" name="carheight"><br>
+
+        <label for="enginesize">engine size:</label>
+        <input type="text" name="enginesize"><br>
+
+        <label for="boreratio">boreratio:</label>
+        <input type="text" name="boreratio"><br>
+
+        <label for="stroke">stroke:</label>
+        <input type="text" name="stroke"><br>
+
+        <label for="compressionratio">scompression ratio:</label>
+        <input type="text" name="compressionratio"><br>
+
+        <label for="horsepower">horsepower:</label>
+        <input type="text" name="horsepower"><br>
+
+        <label for="peakrpm">peakrpm:</label>
+        <input type="text" name="peakrpm"><br>
+
+        <label for="citympg">citympg:</label>
+        <input type="text" name="citympg"><br>
+
+        <label for="highwaympg">highwaympg:</label>
+        <input type="text" name="highwaympg"><br>
+
+
+
+        <!-- Add more input fields for other numeric values -->
+
         <input type="submit" value="Predict">
     </form>
 
-    <!-- Result display -->
-    <div id="result"></div>
-
-    <!-- JavaScript to populate dropdown options and handle form submission -->
-    <script>
-        $(document).ready(function(){
-            // Function to populate dropdown options
-            function populateDropdown(selectElementId, options) {
-                var selectElement = $('#' + selectElementId);
-                selectElement.empty();
-                $.each(options, function(index, option) {
-                    selectElement.append('<option value="' + option + '">' + option + '</option>');
-                });
-            }
-
-            // Fetch options for dropdowns
-            $.get('/api/fueltype', function(options) {
-                populateDropdown('fueltype', options);
-            });
-
-            $.get('/api/aspiration', function(options) {
-                populateDropdown('aspiration', options);
-            });
-
-            $.get('/api/doornumber', function(options) {
-                populateDropdown('doornumber', options);
-            });
-
-            $.get('/api/enginelocation', function(options) {
-                populateDropdown('enginelocation', options);
-            });
-
-            $.get('/api/carbody', function(options) {
-                populateDropdown('carbody', options);
-            });
-
-            $.get('/api/drivewheel', function(options) {
-                populateDropdown('drivewheel', options);
-            });
-
-            $.get('/api/enginetype', function(options) {
-                populateDropdown('enginetype', options);
-            });
-
-            $.get('/api/fuelsystem', function(options) {
-                populateDropdown('fuelsystem', options);
-            });
-            $.get('/api/cylindernumber', function(options) {
-                populateDropdown('cylindernumber', options);
-            });
-
-            // Form submission
-            $('#predictionForm').submit(function(event) {
-                event.preventDefault();
-                var formData = $(this).serialize();
-                $.post('/api/predict', formData, function(result) {
-                    $('#result').text('Prediction Result: Car price is '+ result);
-                });
-            });
-        });
-    </script>
+    {% if result %}
+    <h2>Prediction Result: {{ result }}</h2>
+    {% endif %}
 </body>
 </html>
