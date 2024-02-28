@@ -100,4 +100,4 @@ def model_prediction():
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(port=1001,debug=False)
